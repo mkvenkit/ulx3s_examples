@@ -22,4 +22,5 @@ To use the Makefile on Linux, change `fujprog.exe` to `fujprog`.
 |[vga_hello][1]| A simple VGA pattern genarator.|
 
 
-[1]: 
+[1]: https://github.com/mkvenkit/ulx3s_examples/tree/main/vga_hello
+
