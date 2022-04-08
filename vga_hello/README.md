@@ -11,17 +11,6 @@ VGA Signal 640 x 480 @ 60 Hz Industry standard timing
 http://tinyvga.com/vga-timing/640x480@60Hz
 
 
-## Installation 
-
-For toolchain, get the OSS CAD suite here:
-
-https://github.com/YosysHQ/oss-cad-suite-build/releases/
-
-This example was tested on Windows 10 with Ubuntu Linix installed on WSL2. 
-
-To use the Makefile on Linux, change `fujprog.exe` to `fujprog`.
-
-
 ## LPF changes 
 
 This example uses the Digilent VGA PMOD. Connect it as shown in the photo above, 
