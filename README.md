@@ -11,7 +11,7 @@ Get the OSS CAD suite here:
 
 https://github.com/YosysHQ/oss-cad-suite-build/releases/
 
-These examples were tested on Windows 10 with Ubuntu Linix installed on WSL2. 
+These examples were tested on Windows 10 with Ubuntu Linux installed on WSL2. 
 
 To use the Makefile on Linux, change `fujprog.exe` to `fujprog`.
 
