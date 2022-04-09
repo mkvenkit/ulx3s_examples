@@ -17,13 +17,14 @@ module bram_buffer (
   output reg [15:0] rgb         // RGB556 
 );
 
+// declare a reg from which 
+// block RAM will be inferred 
 // 128 * 128 * 16-bit = 262144
 parameter SZ = 128 * 128;
 reg [15:0] buffer[SZ];
 
 // initialize RAM 
 integer k;
-
 initial begin
     for (k = 0; k < SZ; k++) begin
         if (k < SZ/2)  
@@ -36,6 +37,7 @@ end
 // compute read address 
 wire [17:0] read_addr = 8'd128 * row + col;
 
+// define read access 
 always @ (posedge clk) begin
     if (oe)
         rgb <= buffer[read_addr];

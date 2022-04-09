@@ -69,10 +69,16 @@ bram_buffer buf_rgb (
   assign B = {4{b1}};
 */
 
-  // assign RGB out 
-  assign R = display_on ? rgb[3:0] : 4'd0;
-  assign G = display_on ? rgb[8:4] : 4'd0;
-  assign B = display_on ? rgb[12:9] : 4'd0;
+// assign RGB out 
+wire [11:0] col = ((hpos > 256 && hpos < 384) && 
+                    (vpos > 176 && vpos < 304)) ? 
+                        rgb : 12'h444;
+
+assign {B, G, R} = display_on ? col : 12'd0;
+
+  //assign R = display_on ? rgb[3:0] : 4'd0;
+  //assign G = display_on ? rgb[7:4] : 4'd0;
+  //assign B = display_on ? rgb[11:8] : 4'd0;
 
   // set LEDs
   assign led[0] = RL;
