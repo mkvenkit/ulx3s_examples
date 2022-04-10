@@ -14,23 +14,23 @@ module bram_buffer (
   input [6:0] row,          // 0 to 127 
   input [6:0] col,          // 0 to 127
   input oe,                 // output enable
-  output reg [15:0] rgb         // RGB556 
+  output reg [11:0] rgb     // 4-bit x 3 BGR 
 );
 
 // declare a reg from which 
 // block RAM will be inferred 
-// 128 * 128 * 16-bit = 262144
+// 128 * 128 * 12-bit = 196608
 parameter SZ = 128 * 128;
-reg [15:0] buffer[SZ];
+reg [11:0] buffer[SZ];
 
 // initialize RAM 
 integer k;
 initial begin
     for (k = 0; k < SZ; k++) begin
         if (k < SZ/2)  
-            buffer[k] = 16'h000F;
+            buffer[k] = 12'h00F;
         else 
-            buffer[k] = 16'h0F00;
+            buffer[k] = 12'hF00;
     end
 end
 

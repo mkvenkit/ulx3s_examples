@@ -4,7 +4,7 @@ top.v
 
 A simple test pattern using the hvsync_generator module.
 
-Code adapted from:
+VGA code adapted from:
 
 DESIGNING VIDEO GAME HARDWARE IN VERILOG by Steven Hugg
 
@@ -37,7 +37,7 @@ hvsync_generator hvsync_gen(
 );
 
 // bram module
-wire [15:0] rgb;
+wire [11:0] rgb;
 bram_buffer buf_rgb (
     .clk(clk_25mhz),
     .reset(0),
@@ -47,41 +47,24 @@ bram_buffer buf_rgb (
     .rgb(rgb)
 );
 
-  reg myclk;
-  reg RL;
-  always @ (posedge clk_25mhz)
+// LED blink
+reg RL;
+always @ (posedge clk_25mhz)
     begin 
-      myclk = ~myclk;
-      counter <= counter + 1;
-      if(!counter)
-        RL = ~RL;
+        counter <= counter + 1;
+        if(!counter)
+            RL = ~RL;
     end
 
-/*
-  // set pattern 
-  wire r1 = display_on && (((hpos&7)==0) || ((vpos&7)==0));
-  wire g1 = display_on && vpos[4];
-  wire b1 = display_on && hpos[4];
-  
-  // assign RGB out 
-  assign R = {4{r1}};
-  assign G = {4{g1}};
-  assign B = {4{b1}};
-*/
-
+// set color to a region 
+wire [11:0] col = ((hpos >= 10'd256 && hpos < 10'd384) && 
+                    (vpos >= 10'd128 && vpos < 10'd256)) ? 
+                        rgb : 12'h888;
 // assign RGB out 
-wire [11:0] col = ((hpos >= 256 && hpos < 384) && 
-                    (vpos >= 128 && vpos < 256)) ? 
-                        rgb : 12'h444;
-
 assign {B, G, R} = display_on ? col : 12'd0;
 
-  //assign R = display_on ? rgb[3:0] : 4'd0;
-  //assign G = display_on ? rgb[7:4] : 4'd0;
-  //assign B = display_on ? rgb[11:8] : 4'd0;
-
-  // set LEDs
-  assign led[0] = RL;
-  assign led[7:1] = {7{0}};
+// set LEDs
+assign led[0] = RL;
+assign led[7:1] = {7{0}};
 
 endmodule
