@@ -70,8 +70,8 @@ bram_buffer buf_rgb (
 */
 
 // assign RGB out 
-wire [11:0] col = ((hpos > 256 && hpos < 384) && 
-                    (vpos > 176 && vpos < 304)) ? 
+wire [11:0] col = ((hpos >= 256 && hpos < 384) && 
+                    (vpos >= 128 && vpos < 256)) ? 
                         rgb : 12'h444;
 
 assign {B, G, R} = display_on ? col : 12'd0;
