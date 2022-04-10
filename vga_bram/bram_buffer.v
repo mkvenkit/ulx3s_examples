@@ -24,6 +24,14 @@ parameter SZ = 128 * 128;
 reg [11:0] buffer[SZ];
 
 // initialize RAM 
+`define USE_FILE
+`ifdef USE_FILE 
+// initialize from file 
+initial begin 
+    $readmemh("img.mem", buffer); 
+end
+`else // USE_FILE
+// initialize with values 
 integer k;
 initial begin
     for (k = 0; k < SZ; k++) begin
@@ -33,6 +41,7 @@ initial begin
             buffer[k] = 12'hF00;
     end
 end
+`endif // USE_FILE
 
 // compute read address 
 wire [17:0] read_addr = 8'd128 * row + col;

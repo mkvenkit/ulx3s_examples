@@ -1,10 +1,54 @@
 ## VGA BRAM 
 
-Display data from BRAM on to VGA.
+![VGA BRAM](vga_bram.jpg)
+
+This example displays a 128 x 128 image using VGA. A Python script is provided 
+which resizes the input image and creates a hex file which can be used to 
+initialize the block RAM. (We use 12-bit RGB color.)
 
 ## Inferring BRAM 
 
+For sythesis to automatically infer BRAM, we need to access the memory in a 
+careful way. This is discussed in detail in the article below:
 
+https://zipcpu.com/tutorial/lsn-08-memory.pdf
+
+If you infer BRAM correctly, you will see this in the next-pnr output:
+
+```
+Info: Device utilisation:
+Info: 	       TRELLIS_SLICE:   162/41820     0%
+Info: 	          TRELLIS_IO:    23/  365     6%
+Info: 	                DCCA:     1/   56     1%
+Info: 	              DP16KD:    12/  208     5%
+Info: 	          MULT18X18D:     0/  156     0%
+Info: 	              ALU54B:     0/   78     0%
+Info: 	             EHXPLLL:     0/    4     0%
+Info: 	             EXTREFB:     0/    2     0%
+Info: 	                DCUA:     0/    2     0%
+Info: 	           PCSCLKDIV:     0/    2     0%
+Info: 	             IOLOGIC:     0/  224     0%
+Info: 	            SIOLOGIC:     0/  141     0%
+Info: 	                 GSR:     0/    1     0%
+Info: 	               JTAGG:     0/    1     0%
+Info: 	                OSCG:     0/    1     0%
+Info: 	               SEDGA:     0/    1     0%
+Info: 	                 DTR:     0/    1     0%
+Info: 	             USRMCLK:     0/    1     0%
+Info: 	             CLKDIVF:     0/    4     0%
+Info: 	           ECLKSYNCB:     0/   10     0%
+Info: 	             DLLDELD:     0/    8     0%
+Info: 	              DDRDLL:     0/    4     0%
+Info: 	             DQSBUFM:     0/   14     0%
+Info: 	     TRELLIS_ECLKBUF:     0/    8     0%
+Info: 	        ECLKBRIDGECS:     0/    2     0%
+Info: 	                DCSC:     0/    2     0%
+```
+
+`DP16KD` (True Dual Port Block RAM) is what we're looking for. Here's the 
+module from Lattice documentation:
+
+![DP16KD](dp16kd.png)
 
 ## LPF changes 
 
