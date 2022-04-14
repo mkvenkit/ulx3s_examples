@@ -52,7 +52,7 @@ wire [10:0] hpos;
 wire [10:0] vpos;
 // hook up hsync/vsync     
 hvsync_generator hvsync_gen(
-    .clk(clk_25mhz),
+    .clk(clk_100mhz),
     .clk_stb(clk_stb),
     .reset(reset),
     .hsync(hsync),
@@ -62,15 +62,29 @@ hvsync_generator hvsync_gen(
     .vpos(vpos)
 );
 
-// set pattern 
-wire r1 = display_on && (((hpos&7)==0) || ((vpos&7)==0));
-wire g1 = display_on && vpos[4];
-wire b1 = display_on && hpos[4];  
-// assign RGB out 
-assign R = {4{r1}};
-assign G = {4{g1}};
-assign B = {4{b1}};
+// clocked VGA
+reg [3:0] red;
+reg [3:0] green;
+reg [3:0] blue;
+always @(posedge clk_100mhz) begin
+    if (!reset) begin 
+        red <= 4'd0;
+        green <= 4'd0;
+        blue <= 4'd0;
+    end 
+    else begin 
+        if (clk_stb) begin
+            red   <= {4{display_on && (((hpos&7)==0) || ((vpos&7)==0))}};
+            green <= {4{display_on && vpos[4]}};
+            blue  <= {4{display_on && hpos[4]}};
+        end
+    end 
+end
 
+// assign RGB out 
+assign R = red;
+assign G = green;
+assign B = blue;
 
 // **********
 // LED blink 
