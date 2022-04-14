@@ -11,6 +11,14 @@ VGA Signal 640 x 480 @ 60 Hz Industry standard timing
 http://tinyvga.com/vga-timing/640x480@60Hz
 
 
+## PLL 
+
+Generate PLL file for ECP5 as follows:
+
+```
+ecppll -f pll.v -i 25 -o 100
+```
+
 ## LPF changes 
 
 This example uses the Digilent VGA PMOD. Connect it as shown in the photo above, 

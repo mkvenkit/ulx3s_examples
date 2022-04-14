@@ -14,6 +14,10 @@
 // For more info, check
 // http://www.fpga4fun.com/SDRAM.html
 
+
+// Never forget this!
+`default_nettype none
+
 ///////////////////////////////////////////////
 module SDRAM_ctrl(
 	input clk,
