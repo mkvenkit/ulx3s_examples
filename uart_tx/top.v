@@ -21,8 +21,8 @@ wire resetn = btn[0];
 
 
 // UART signals 
-reg [7:0] data;
-reg start_tx;
+wire [7:0] data;
+wire start_tx;
 wire busy;
 
 // UART module 
@@ -32,7 +32,16 @@ uart_tx uart1(
     .data(data),
     .start_tx(start_tx),
     .busy(busy),
-    .rx(ftdi_rxd)
+    .tx(ftdi_rxd)
+);
+
+// UART sender 
+uart_sender us1 (
+    .clk(clk_25mhz),
+    .resetn(resetn),
+    .busy(busy),
+    .data(data),
+    .data_ready(start_tx)
 );
 
 

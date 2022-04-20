@@ -25,6 +25,7 @@ module uart_tx (
 // f = 25000000
 // f/115200 = 217.01388888888889
 // f/217 = 115207.3732718894
+// So divider is 2^16 / 217 = 302
 // https://zipcpu.com/blog/2017/06/02/generating-timing.html 
 reg	[15:0]	clk_counter;
 reg bclk_stb;
@@ -33,7 +34,7 @@ reg bclk_stb;
 `ifdef __ICARUS__
 parameter divider = 16'd16384;
 `else
-parameter divider = 16'd217;
+parameter divider = 16'd302;
 `endif // `ifdef __ICARUS__
 
 always @(posedge clk_25mhz)
@@ -61,7 +62,6 @@ always @(posedge clk_25mhz) begin
     // reset 
     if (!resetn) begin
         // initialize to idle
-        state <= sIDLE;
         next_state <= sIDLE;
         // set flag
         load_data <= 1'b0;        
