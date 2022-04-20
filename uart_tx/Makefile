@@ -17,6 +17,13 @@ prog: $(PROJ).bit
 flash: $(PROJ).bit
 	fujprog.exe -j flash $<
 
+sim:
+	iverilog -o tb.out -s tb testbench.v uart_tx.v
+	vvp tb.out 
+	
+sim-show:
+	gtkwave testbench.vcd   
+
 clean:
 	rm -f *.bit *.config *.json out.txt
 
